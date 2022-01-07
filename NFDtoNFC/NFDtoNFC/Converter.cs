@@ -9,24 +9,53 @@ namespace NFDtoNFC
 {
     public static class Converter
     {
-        public static bool NormalizeFileName(FileInfo fileInfo, NormalizationForm form)
+        public static bool NormalizeDirectoryName(DirectoryInfo directoryInfo, NormalizationForm form)
         {
-            if (fileInfo == null)
+            if (directoryInfo == null)
             {
                 return false;
             }
 
-            var name = NormalizeText(fileInfo.FullName, form);
+            var name = NormalizeText(directoryInfo.Name, form);
 
+            if (name == directoryInfo.Name)
+            {
+                return true;
+            }
             try
             {
-                fileInfo.MoveTo(name);
+                directoryInfo.MoveTo(directoryInfo.Parent.FullName + "/" + name);
                 return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
+            }
+        }
+
+        public static FileInfo NormalizeFileName(FileInfo fileInfo, NormalizationForm form)
+        {
+            if (fileInfo == null)
+            {
+                return fileInfo;
+            }
+
+            var name = NormalizeText(fileInfo.Name, form);
+            if (name == fileInfo.Name)
+            {
+                return fileInfo;
+            }
+
+            try
+            {
+                fileInfo.MoveTo(fileInfo.Directory + "/" + name);
+                return new FileInfo(fileInfo.Directory + "/" + name);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return fileInfo;
             }
         }
 

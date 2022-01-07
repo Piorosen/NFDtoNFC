@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace NFDtoNFC
 {
-    public struct RequestParams
+    public class RequestDirectory
     {
-        public string FileName;
-        public string DirectoryName;
-        public bool ContentText;
-        public NormalizationForm Form;
+        public bool Recursive = false;
+        public string DirectoryName = null;
+        public List<string> Extension = new List<string>();
+    }
+    public class RequestParams
+    {
+        public string FileName = null;
+        public RequestDirectory? Directory = null;
+        public bool ContentText = false;
+        public NormalizationForm Form = NormalizationForm.FormC;
     }
 }
