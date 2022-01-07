@@ -219,6 +219,7 @@ namespace NFDtoNFC
 
         internal static void Main(string[] args)
         {
+            Console.WriteLine(String.Join(", ", args));
             var param = ParsingParameter(args);
             
             if (param.FileName != null)
